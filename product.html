@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LRB Collection | Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#000;color:#fff;overflow-x:hidden;}
+.video-background{position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:-2;}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);z-index:-1;}
+header{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 50px;background: rgba(0,0,0,0.25);backdrop-filter: blur(15px);z-index:10;border-bottom:1px solid rgba(255,255,255,0.1);}
+.logo{font-size:1.8rem;font-weight:600;color:#fff;position:relative;}
+.logo::after{content:'';position:absolute;left:0;bottom:-4px;width:100%;height:3px;background: linear-gradient(90deg,#ff00cc,#3333ff);border-radius:2px;animation: glow 3s infinite alternate;}
+@keyframes glow { from{opacity:0.4;width:60%;} to{opacity:1;width:100%;} }
+nav a{margin-left:25px;text-decoration:none;color:#fff;font-weight:500;transition:0.3s;}
+nav a:hover{color:#ff00cc;}
+.products{position:relative;z-index:1;margin-top:120px;padding:60px 50px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;}
+.product{position:relative;z-index:2;background:rgba(255,255,255,0.1);border-radius:15px;padding:20px;text-align:center;backdrop-filter:blur(8px);transition:transform 0.3s,box-shadow 0.3s;}
+.product:hover{transform:translateY(-6px);box-shadow:0 0 25px rgba(255,0,204,0.25);}
+.product img{width:100%;height:270px;object-fit:cover;border-radius:10px;margin-bottom:12px;}
+.product h3{font-size:1.2rem;margin-bottom:6px;}
+.price{color:#aaa;margin-bottom:10px;}
+button{padding:10px 22px;border:none;border-radius:25px;background:linear-gradient(90deg,#ff00cc,#3333ff);color:#fff;font-size:0.9rem;cursor:pointer;transition:transform 0.3s;}
+button:hover{transform:translateY(-2px);}
+footer{background: rgba(0,0,0,0.8);text-align:center;padding:25px 10px;font-size:0.9rem;color:#ccc;letter-spacing:1px;margin-top:60px;position:relative;z-index:2;}
+</style>
+</head>
+<body>
+<video class="video-background" autoplay muted loop poster="background.jpg">
+<source src="background.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<header>
+<div class="logo">LRB Collection</div>
+<nav>
+<a href="index.html">Home</a>
+<a href="product.html">Products</a>
+<a href="contact.html">Contact</a>
+<a href="login.html">Login</a>
+<a href="cart.html">Cart</a>
+</nav>
+</header>
+
+<section class="products" id="product-list"></section>
+
+<footer>© 2025 LRB Collection | All Rights Are Reserved | Designed by Abdul Ahad</footer>
+
+<script>
+const products = [
+  { id:1, name:"Techwear Jacket", price:"₨ 4,999", image:"images/Desert.jpg" },
+  { id:2, name:"Neon Pulse Sneakers", price:"₨ 6,999", image:"images/NeonSneakers.jpg" },
+  { id:3, name:"Cyber Hoodie", price:"₨ 3,499", image:"images/Koala.jpg" },
+  { id:4, name:"AeroFlex T-Shirt", price:"₨ 1,999", image:"images/AeroFlexTshirt.jpg" },
+  { id:5, name:"Urban Shadow Pants", price:"₨ 2,799", image:"images/UrbanShadowPants.jpg" },
+  { id:6, name:"Reflective Cap", price:"₨ 999", image:"images/ReflectiveCap.jpg" }
+];
+
+const container = document.getElementById('product-list');
+container.innerHTML = products.map(p => `
+  <div class="product">
+    <img src="${p.image}" alt="${p.name}" onerror="this.src='images/Desert.jpg'">
+    <h3>${p.name}</h3>
+    <p class="price">${p.price}</p>
+    <button onclick="addToCart(${p.id})">Add to Cart</button>
+  </div>
+`).join('');
+
+function addToCart(id){
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const item = products.find(p => p.id === id);
+  const exist = cart.find(i => i.id === id);
+  if(exist){ exist.qty += 1; }
+  else { item.qty = 1; cart.push(item); }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert(`${item.name} added to cart!`);
+}
+</script>
+</body>
+</html>

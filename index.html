@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LRB Collection | Home</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+  
+    
+  
+    /* 🌈 Base Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      color: #fff;
+      overflow-x: hidden;
+      background: #000;
+    }
+
+    /* 🎬 Hero Background Video */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    /* 🖤 Overlay for readability */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      z-index: -1;
+    }
+
+    /* 🚀 Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(15px);
+      z-index: 10;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #fff;
+      position: relative;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      border-radius: 2px;
+      animation: glow 3s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { opacity: 0.4; width: 60%; }
+      to { opacity: 1; width: 100%; }
+    }
+
+    nav a {
+      margin-left: 25px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff00cc;
+    }
+
+    /* 🌠 Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #eee;
+      margin-bottom: 25px;
+      max-width: 600px;
+    }
+
+    .hero button {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .hero button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(255, 0, 204, 0.4);
+    }
+
+    /* 💎 Featured Section */
+    .featured {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      padding: 100px 50px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px rgba(255, 0, 204, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #bbb;
+      font-size: 0.9rem;
+    }
+
+    /* ⚡ Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.8);
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 0.9rem;
+      color: #ccc;
+      letter-spacing: 1px;
+    }
+
+    /* 📱 Responsive */
+    @media (max-width: 480px) {
+      header {
+        padding: 12px 25px;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .hero p {
+        font-size: 1rem;
+      }
+      .hero button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+      .featured {
+        padding: 60px 20px;
+      }
+    }
+	
+	
+	
+	/* SOCIAL ICONS FLOATING */
+    .social-icons {
+      position: fixed;
+      bottom:30px;
+      left:30px;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    .social-icons a {
+      text-decoration:none;
+      font-size:1.5rem;
+      color:#fff;
+      padding:12px;
+      border-radius:50%;
+      background: rgba(255,255,255,0.1);
+      box-shadow:0 0 10px rgba(0,255,204,0.4);
+      transition:0.4s;
+      animation: float 3s ease-in-out infinite;
+    }
+    .social-icons a:hover {
+      transform: scale(1.3) rotate(10deg);
+      background: linear-gradient(90deg,#00ffcc,#0066ff);
+      box-shadow:0 0 20px #00ffcc;
+    }
+    @keyframes float { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+
+		
+  </style>
+</head>
+
+<body>
+  <!-- Background Video -->
+  <video class="video-background" autoplay muted loop poster="background.jpg">
+    <source src="background.mp4" type="video/mp4" />
+  </video>
+  <div class="overlay"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">LRB Collection</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html">Login</a>
+	  <a href="cart.html">Cart</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Unleash the Future of Style</h1>
+    <p>Where luxury meets innovation. Explore handcrafted pieces made to elevate your aesthetic and mindset.</p>
+    <button onclick="window.location.href='product.html'">Shop Now</button>
+  </section>
+
+  <!-- Featured Section -->
+  <section class="featured">
+    <div class="card">
+      <img src="images/Desert.jpg" alt="Jacket">
+      <h3>Techwear Jacket</h3>
+      <p>Cutting-edge design with reflective detail. For the street innovators.</p>
+    </div>
+    <div class="card">
+      <img src="images/Desert.jpg" alt="Shoes">
+      <h3>Neon Pulse Sneakers</h3>
+      <p>Lightweight comfort meets future aesthetics.</p>
+    </div>
+    <div class="card">
+      <img src="images/Desert.jpg" alt="Hoodie">
+      <h3>Cyber Hoodie</h3>
+      <p>Soft, sleek, and made for the bold.</p>
+    </div>
+  </section>
+  
+  
+  <!-- Floating Social Icons -->
+  <div class="social-icons">
+    <a href="https://instagram.com/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://twitter.com/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+    <a href="https://t.me/" target="_blank" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+  </div>
+  
+
+  <!-- Footer -->
+  <footer>
+    © 2025 LRB Collection | All Rights Reserved |  Developed by Abdul Ahad
+  </footer>
+</body>
+</html>

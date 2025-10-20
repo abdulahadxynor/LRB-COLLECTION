@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LRB Collection | Cart</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#000;color:#fff;overflow-x:hidden;}
+header{position:fixed;top:0;width:100%;display:flex;justify-content:space-between;align-items:center;padding:18px 50px;background: rgba(0,0,0,0.25);backdrop-filter: blur(15px);z-index:10;border-bottom:1px solid rgba(255,255,255,0.1);}
+.logo{font-size:1.8rem;font-weight:600;color:#fff;position:relative;}
+.logo::after{content:'';position:absolute;left:0;bottom:-4px;width:100%;height:3px;background: linear-gradient(90deg,#ff00cc,#3333ff);border-radius:2px;animation: glow 3s infinite alternate;}
+@keyframes glow { from{opacity:0.4;width:60%;} to{opacity:1;width:100%;} }
+nav a{margin-left:25px;text-decoration:none;color:#fff;font-weight:500;transition:0.3s;}
+nav a:hover{color:#ff00cc;}
+.cart-container{margin-top:120px;padding:50px;max-width:1000px;margin:auto;}
+h1{text-align:center;font-size:2rem;margin-bottom:30px;background:linear-gradient(90deg,#ff00cc,#3333ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+table{width:100%;border-collapse:collapse;margin-bottom:40px;}
+th,td{padding:12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.2);}
+th{color:#ff00cc;}
+td img{width:80px;border-radius:8px;}
+.qty-input{width:50px;padding:5px;text-align:center;border-radius:6px;border:none;}
+.remove-btn{padding:6px 12px;border:none;border-radius:12px;background:#ff0066;color:#fff;cursor:pointer;transition:0.3s;}
+.remove-btn:hover{background:#ff3399;}
+.checkout-form{background: rgba(255,255,255,0.08); padding:30px; border-radius:20px; backdrop-filter:blur(12px); max-width:500px; margin:auto;}
+.checkout-form h2{text-align:center;margin-bottom:20px;}
+.checkout-form input, .checkout-form textarea, .checkout-form select{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:none;background:rgba(255,255,255,0.15);color:#fff;}
+.checkout-form button{width:100%;padding:14px;border:none;border-radius:30px;font-size:1rem;background:linear-gradient(90deg,#ff00cc,#3333ff);color:#fff;cursor:pointer;transition:0.3s;}
+.checkout-form button:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(255,0,204,0.4);}
+footer{background: rgba(0,0,0,0.8);text-align:center;padding:25px 10px;font-size:0.9rem;color:#ccc;letter-spacing:1px;margin-top:60px;}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">LRB Collection</div>
+<nav>
+<a href="index.html">Home</a>
+<a href="product.html">Products</a>
+<a href="contact.html">Contact</a>
+<a href="login.html">Login</a>
+<a href="cart.html">Cart</a>
+</nav>
+</header>
+
+<div class="cart-container">
+<h1>Your Cart</h1>
+<table id="cart-table">
+<thead>
+<tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th><th>Action</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="checkout-form">
+<h2>Checkout</h2>
+<input type="text" id="user-name" placeholder="Name" required>
+<input type="email" id="user-email" placeholder="Email" required>
+<input type="text" id="user-phone" placeholder="Phone" required>
+<textarea id="user-address" placeholder="Address" rows="3" required></textarea>
+<textarea id="user-note" placeholder="Note (optional)" rows="2"></textarea>
+<select id="payment-method">
+<option value="COD">Cash on Delivery (Rs 50 delivery)</option>
+<option value="Online">Online Payment</option>
+</select>
+<button onclick="placeOrder()">Place Order</button>
+</div>
+</div>
+
+<footer>© 2025 LRB Collection | All Rights Reserved | Developed by Abdul Ahad</footer>
+
+<script>
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+function renderCart(){
+  const tbody = document.querySelector('#cart-table tbody');
+  tbody.innerHTML = '';
+  if(cart.length === 0){
+    tbody.innerHTML = '<tr><td colspan="5">Cart is empty</td></tr>';
+    return;
+  }
+  cart.forEach((item,index)=>{
+    const priceNum = parseInt(item.price.replace(/[^0-9]/g,''));
+    const total = priceNum * item.qty;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><img src="${item.image}" alt="${item.name}"><br>${item.name}</td>
+      <td>₨ ${priceNum}</td>
+      <td><input type="number" class="qty-input" value="${item.qty}" min="1" onchange="updateQty(${index},this.value)"></td>
+      <td>₨ ${total}</td>
+      <td><button class="remove-btn" onclick="removeItem(${index})">Remove</button></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function updateQty(i, val){
+  cart[i].qty = parseInt(val);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
+
+function removeItem(i){
+  cart.splice(i,1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  renderCart();
+}
+
+function placeOrder(){
+  if(cart.length===0){ alert('Cart empty'); return; }
+  const name = document.getElementById('user-name').value.trim();
+  const email = document.getElementById('user-email').value.trim();
+  const phone = document.getElementById('user-phone').value.trim();
+  const address = document.getElementById('user-address').value.trim();
+  const note = document.getElementById('user-note').value.trim();
+  const payment = document.getElementById('payment-method').value;
+  if(!name||!email||!phone||!address){ alert('Fill all required fields'); return; }
+
+  let msg = `🛍️ *New Order from LRB Collection* 🛍️%0A--------------------------------%0A`;
+  msg += `*Customer Info*%0A👤 Name: ${name}%0A📧 Email: ${email}%0A📞 Phone: ${phone}%0A🏠 Address: ${address}%0A💰 Payment: ${payment}%0A`;
+  if(payment==='COD'){ msg += `💵 COD charge included: Rs 50%0A`; }
+  if(note) msg += `📝 Note: ${note}%0A`;
+  msg += `--------------------------------%0A*Order Details*%0A`;
+
+  let totalPrice = 0;
+  cart.forEach(item=>{
+    const priceNum = parseInt(item.price.replace(/[^0-9]/g,''));
+    const itemTotal = priceNum * item.qty;
+    totalPrice += itemTotal;
+    msg += `🔹 ${item.name} | Qty: ${item.qty} | ₨ ${itemTotal}%0A`;
+  });
+  if(payment==='COD'){ totalPrice += 50; }
+  msg += `--------------------------------%0A💎 Total: ₨ ${totalPrice}%0AThank you for shopping with LRB Collection! 🎉`;
+
+  const via = confirm('Click OK for WhatsApp, Cancel for Email');
+  if(via){
+    const waNumber='+923234106753';
+    window.open(`https://wa.me/${waNumber}?text=${msg}`,'_blank');
+  } else {
+    const mailTo='abdulahad.xynor@email.com';
+    window.location.href=`mailto:${mailTo}?subject=🛒 New Order from LRB Collection&body=${msg}`;
+  }
+
+  localStorage.removeItem('cart');
+  cart = [];
+  renderCart();
+}
+
+renderCart();
+</script>
+</body>
+</html>

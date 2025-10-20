@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LRB Collection | Member Access</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+  /* 🌈 Reset & Body */
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+  body { color:#fff; overflow-x:hidden; background:#000; }
+
+  /* 🎬 Background Video */
+  .video-background {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    object-fit:cover; z-index:-2;
+  }
+  .overlay {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); z-index:-1;
+  }
+
+  /* 🚀 Header */
+  header {
+    position: fixed; top:0; width:100%; display:flex; justify-content:space-between;
+    align-items:center; padding:18px 50px; background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(15px); z-index:10; border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .logo { font-size:1.8rem; font-weight:600; letter-spacing:2px; color:#fff; position:relative; }
+  .logo::after {
+    content:''; position:absolute; left:0; bottom:-4px; width:100%; height:3px;
+    background: linear-gradient(90deg,#ff00cc,#3333ff); border-radius:2px;
+    animation: glow 3s infinite alternate;
+  }
+  @keyframes glow { from{opacity:0.4;width:60%;} to{opacity:1;width:100%;} }
+  nav a { margin-left:25px; text-decoration:none; color:#fff; font-weight:500; transition:0.3s; }
+  nav a:hover { color:#ff00cc; }
+
+  /* 🌟 Member Section Container */
+  .member-container {
+    height:100vh; display:flex; justify-content:center; align-items:center; position:relative; z-index:1;
+    flex-direction:column; text-align:center; padding:0 20px;
+  }
+  .member-container h1 {
+    font-size:2.5rem; background: linear-gradient(90deg,#ff00cc,#3333ff);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:40px;
+  }
+
+  /* 🔄 Sliding Forms Box */
+  .form-wrapper {
+    position: relative;
+    width:360px;
+    height:auto;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius:25px;
+    overflow:hidden;
+    transition:0.6s;
+  }
+
+  .form-inner {
+    display:flex;
+    width:200%;
+    transition:0.6s;
+  }
+
+  .form-section {
+    width:50%;
+    padding:40px 30px;
+  }
+
+  .toggle-btns {
+    display:flex; justify-content:center; margin-bottom:25px;
+  }
+  .toggle-btns button {
+    flex:1; padding:12px 0; border:none; cursor:pointer; font-weight:600;
+    background: rgba(255,255,255,0.15); color:#fff; transition:0.3s;
+    border-radius:25px;
+    margin:0 5px;
+  }
+  .toggle-btns button.active { background: linear-gradient(90deg,#ff00cc,#3333ff); color:#fff; }
+
+  /* 📝 Inputs with Floating Labels */
+  .form-section input {
+    width:100%; padding:14px 15px; margin:20px 0 5px 0;
+    border:none; border-radius:10px; outline:none; font-size:1rem;
+    background: rgba(255,255,255,0.15); color:#fff;
+    transition:0.3s;
+  }
+  .form-section input:focus { background: rgba(255,255,255,0.25); }
+
+  /* Password toggle */
+  .password-wrapper { position:relative; }
+  .password-wrapper i {
+    position:absolute; top:50%; right:15px; transform:translateY(-50%);
+    cursor:pointer; color:#fff; opacity:0.7;
+  }
+
+  /* Submit button */
+  .submit-btn {
+    width:100%; padding:14px; margin-top:25px; border:none;
+    border-radius:30px; font-size:1rem; background:linear-gradient(90deg,#ff00cc,#3333ff);
+    color:#fff; cursor:pointer; transition:0.3s;
+  }
+  .submit-btn:hover { transform:translateY(-3px); box-shadow:0 0 20px rgba(255,0,204,0.4); }
+
+  /* Error message */
+  .error-msg { color:#ff6666; margin-top:8px; font-size:0.85rem; }
+
+  /* ⚡ Footer */
+  footer {
+    background: rgba(0,0,0,0.8); text-align:center; padding:25px 10px;
+    font-size:0.9rem; color:#ccc; letter-spacing:1px; position:relative; z-index:2;
+  }
+
+  /* 📱 Responsive */
+  @media(max-width:480px){
+    header { padding:12px 25px; }
+    .member-container h1 { font-size:2rem; }
+    .form-wrapper { width:90%; }
+    .form-section { padding:30px 20px; }
+  }
+
+  /* 🔹 Particle effect */
+  canvas#particles { position:fixed; top:0; left:0; z-index:-1; pointer-events:none; }
+</style>
+</head>
+<body>
+
+<!-- Video Background -->
+<video class="video-background" autoplay muted loop poster="background.jpg">
+  <source src="background.mp4" type="video/mp4" />
+</video>
+<div class="overlay"></div>
+
+<!-- Particle Canvas -->
+<canvas id="particles"></canvas>
+
+<!-- Header -->
+<header>
+  <div class="logo">LRB Collection</div>
+  <nav>
+  <a href="index.html">Home</a>
+      <a href="product.html">Products</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html">Login</a>
+	  <a href="cart.html">Cart</a>
+  </nav>
+</header>
+
+<!-- Member Section -->
+<div class="member-container">
+  <h1>Join the LRB Crew & Unlock Exclusive Style!</h1>
+
+  <div class="toggle-btns">
+    <button class="active" onclick="switchForm('login')">Login</button>
+    <button onclick="switchForm('signup')">Sign Up</button>
+  </div>
+
+  <div class="form-wrapper">
+    <div class="form-inner" id="form-inner">
+      <!-- Login Form -->
+      <div class="form-section" id="login-section">
+        <input type="text" id="login-username" placeholder="Username">
+        <div class="password-wrapper">
+          <input type="password" id="login-password" placeholder="Password">
+          <i class="fas fa-eye" onclick="togglePassword('login-password', this)"></i>
+        </div>
+        <button class="submit-btn" onclick="login()">Login</button>
+        <p class="error-msg" id="login-error"></p>
+      </div>
+
+      <!-- Sign Up Form -->
+      <div class="form-section" id="signup-section">
+        <input type="text" id="signup-username" placeholder="Choose Username">
+        <div class="password-wrapper">
+          <input type="password" id="signup-password" placeholder="Choose Password">
+          <i class="fas fa-eye" onclick="togglePassword('signup-password', this)"></i>
+        </div>
+        <button class="submit-btn" onclick="signup()">Sign Up</button>
+        <p class="error-msg" id="signup-error"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  © 2025 LRB Collection | All Rights Reserved | Developed by Abdul Ahad
+</footer>
+
+<!-- JS -->
+<script>
+  const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+  function switchForm(form){
+    const inner = document.getElementById('form-inner');
+    const buttons = document.querySelectorAll('.toggle-btns button');
+    buttons.forEach(b=>b.classList.remove('active'));
+    if(form==='login'){
+      inner.style.transform='translateX(0%)';
+      buttons[0].classList.add('active');
+    } else {
+      inner.style.transform='translateX(-50%)';
+      buttons[1].classList.add('active');
+    }
+  }
+
+  function togglePassword(id, icon){
+    const input = document.getElementById(id);
+    if(input.type==='password'){ input.type='text'; icon.style.color='#ff00cc'; }
+    else { input.type='password'; icon.style.color='#fff'; }
+  }
+
+  function signup(){
+    const username = document.getElementById('signup-username').value.trim();
+    const password = document.getElementById('signup-password').value.trim();
+    const error = document.getElementById('signup-error');
+    if(!username||!password){ error.textContent='Fill all fields!'; return; }
+    if(storedUsers.find(u=>u.username===username)){ error.textContent='Username exists!'; return; }
+    storedUsers.push({username,password});
+    localStorage.setItem('users', JSON.stringify(storedUsers));
+    alert('Sign Up Successful! Please login.');
+    switchForm('login');
+  }
+
+  function login(){
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+    const error = document.getElementById('login-error');
+    if(!username||!password){ error.textContent='Fill all fields!'; return; }
+    const user = storedUsers.find(u=>u.username===username && u.password===password);
+    if(user){
+      localStorage.setItem('username', username);
+      window.location.href='index.html';
+    } else { error.textContent='Invalid username or password!'; }
+  }
+
+  // Particle effect
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  let particlesArray = [];
+  const colors = ['#ff00cc','#3333ff','#00ffcc','#ff33ff'];
+  const maxParticles = 80;
+
+  class Particle {
+    constructor(){
+      this.x = Math.random()*canvas.width;
+      this.y = Math.random()*canvas.height;
+      this.size = Math.random()*3+1;
+      this.speedX = Math.random()*2-1;
+      this.speedY = Math.random()*2-1;
+      this.color = colors[Math.floor(Math.random()*colors.length)];
+    }
+    update(){ this.x += this.speedX; this.y += this.speedY; if(this.size>0.2)this.size-=0.01; }
+    draw(){ ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); }
+  }
+
+  function initParticles(){
+    particlesArray = [];
+    for(let i=0;i<maxParticles;i++) particlesArray.push(new Particle());
+  }
+
+  function animateParticles(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particlesArray.forEach(p=>{p.update();p.draw();});
+    requestAnimationFrame(animateParticles);
+  }
+
+  window.addEventListener('resize', ()=>{
+    canvas.width=window.innerWidth; canvas.height=window.innerHeight; initParticles();
+  });
+
+  initParticles(); animateParticles();
+</script>
+</body>
+</html>
