@@ -26,8 +26,75 @@ td img{width:80px;border-radius:8px;}
 .checkout-form{background: rgba(255,255,255,0.08); padding:30px; border-radius:20px; backdrop-filter:blur(12px); max-width:500px; margin:auto;}
 .checkout-form h2{text-align:center;margin-bottom:20px;}
 .checkout-form input, .checkout-form textarea, .checkout-form select{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:none;background:rgba(255,255,255,0.15);color:#fff;}
-.checkout-form button{width:100%;padding:14px;border:none;border-radius:30px;font-size:1rem;background:linear-gradient(90deg,#ff00cc,#3333ff);color:#fff;cursor:pointer;transition:0.3s;}
-.checkout-form button:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(255,0,204,0.4);}
+/* --- Place Order Button --- */
+.checkout-form button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  background: linear-gradient(90deg,#ff00cc,#3333ff);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.checkout-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(255,0,204,0.4);
+}
+/* truck + box animation inside button */
+.checkout-form button .truck {
+  position: absolute;
+  left: -50px;
+  opacity: 0;
+}
+.checkout-form button .truck img {
+  width: 30px;
+  filter: drop-shadow(0 0 5px #ff00cc);
+}
+.checkout-form button .boxes {
+  position: absolute;
+  right: -40px;
+  opacity: 0;
+  font-size: 20px;
+}
+@keyframes driveTruck {
+  0% { left: -50px; opacity: 0; }
+  40% { left: 25px; opacity: 1; }
+  80% { left: 80%; opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@keyframes dropBox {
+  0% { right: -40px; opacity: 0; transform: translateY(-10px); }
+  50% { right: 30px; opacity: 1; transform: translateY(0); }
+  100% { right: 100%; opacity: 0; transform: translateY(20px); }
+}
+@keyframes loadingText {
+  0%, 100% { content: "Processing Order"; }
+  33% { content: "Processing Order."; }
+  66% { content: "Processing Order.."; }
+}
+.checkout-form button.active {
+  background: linear-gradient(90deg,#ff3399,#3333ff);
+  pointer-events: none;
+}
+.checkout-form button.active .truck {
+  animation: driveTruck 2.5s ease forwards;
+}
+.checkout-form button.active .boxes {
+  animation: dropBox 2.5s ease 0.5s forwards;
+}
+.checkout-form button.active .text::after {
+  content: "Processing Order";
+  animation: loadingText 1s infinite;
+}
 footer{background: rgba(0,0,0,0.8);text-align:center;padding:25px 10px;font-size:0.9rem;color:#ccc;letter-spacing:1px;margin-top:60px;}
 </style>
 </head>
@@ -63,7 +130,13 @@ footer{background: rgba(0,0,0,0.8);text-align:center;padding:25px 10px;font-size
 <option value="COD">Cash on Delivery (Rs 50 delivery)</option>
 <option value="Online">Online Payment</option>
 </select>
-<button onclick="placeOrder()">Place Order</button>
+
+<!-- 🔥 Animated Place Order Button -->
+<button onclick="placeOrder()" id="order-btn">
+  <span class="truck"><img src="truck.png" alt="Truck"></span>
+  <span class="text">Place Order</span>
+  <span class="boxes">📦📦</span>
+</button>
 </div>
 </div>
 
@@ -107,6 +180,7 @@ function removeItem(i){
 }
 
 function placeOrder(){
+  const btn = document.getElementById('order-btn');
   if(cart.length===0){ alert('Cart empty'); return; }
   const name = document.getElementById('user-name').value.trim();
   const email = document.getElementById('user-email').value.trim();
@@ -115,6 +189,8 @@ function placeOrder(){
   const note = document.getElementById('user-note').value.trim();
   const payment = document.getElementById('payment-method').value;
   if(!name||!email||!phone||!address){ alert('Fill all required fields'); return; }
+
+  btn.classList.add('active'); // animate truck & boxes
 
   let msg = `🛍️ *New Order from LRB Collection* 🛍️%0A--------------------------------%0A`;
   msg += `*Customer Info*%0A👤 Name: ${name}%0A📧 Email: ${email}%0A📞 Phone: ${phone}%0A🏠 Address: ${address}%0A💰 Payment: ${payment}%0A`;
@@ -140,6 +216,12 @@ function placeOrder(){
     const mailTo='abdulahad.xynor@email.com';
     window.location.href=`mailto:${mailTo}?subject=🛒 New Order from LRB Collection&body=${msg}`;
   }
+
+  setTimeout(()=>{
+    btn.classList.remove('active');
+    btn.querySelector('.text').textContent = 'Order Placed ✅';
+    setTimeout(()=>{btn.querySelector('.text').textContent = 'Place Order';},2500);
+  },3000);
 
   localStorage.removeItem('cart');
   cart = [];
