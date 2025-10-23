@@ -208,7 +208,7 @@ function placeOrder(){
   if(payment==='COD'){ totalPrice += 50; }
   msg += `--------------------------------%0A💎 Total: ₨ ${totalPrice}%0AThank you for shopping with LRB Collection! 🎉`;
 
-  const via = confirm('Click WhatsApp for Ordering Via WhatsApp, Email for Ordering Via Email');
+  const via = confirm('Click OK for Ordering Via WhatsApp, CANCEL for Ordering Via Email');
   if(via){
     const waNumber='+923234106753';
     window.open(`https://wa.me/${waNumber}?text=${msg}`,'_blank');
@@ -232,6 +232,7 @@ renderCart();
 </script>
 </body>
 </html>
+
 
 
 
