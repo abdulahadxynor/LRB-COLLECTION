@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
+<urlset 
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
+  <!-- Home -->
   <url>
     <loc>https://abdulahadxynor.github.io/LRB-COLLECTION/</loc>
     <lastmod>2025-10-23</lastmod>
@@ -10,6 +11,7 @@
     <changefreq>daily</changefreq>
   </url>
 
+  <!-- Featured / Products -->
   <url>
     <loc>https://abdulahadxynor.github.io/LRB-COLLECTION/products.html</loc>
     <lastmod>2025-10-23</lastmod>
@@ -17,6 +19,7 @@
     <changefreq>daily</changefreq>
   </url>
 
+  <!-- Cart -->
   <url>
     <loc>https://abdulahadxynor.github.io/LRB-COLLECTION/cart.html</loc>
     <lastmod>2025-10-23</lastmod>
@@ -24,6 +27,7 @@
     <changefreq>weekly</changefreq>
   </url>
 
+  <!-- Contact -->
   <url>
     <loc>https://abdulahadxynor.github.io/LRB-COLLECTION/contact.html</loc>
     <lastmod>2025-10-23</lastmod>
@@ -31,10 +35,12 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <!-- Login -->
   <url>
     <loc>https://abdulahadxynor.github.io/LRB-COLLECTION/login.html</loc>
     <lastmod>2025-10-23</lastmod>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
+
 </urlset>
